@@ -45,7 +45,7 @@ def translate_dishes(menus: Dict[date, Menu], language: str) -> bool:
     # get api key from environment, abort if not given
     deepl_api_key = os.environ.get("DEEPL_API_KEY_EAT_API")
     if deepl_api_key is None:
-        raise Exception("For translation please provide a DeepL api key via DEEPL_API_KEY_EAT_API")
+        raise TypeError("For translation please provide a DeepL api key via DEEPL_API_KEY_EAT_API")
 
     translator = deepl.Translator(deepl_api_key)
     # source language is always german

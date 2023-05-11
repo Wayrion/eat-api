@@ -14,13 +14,13 @@ jobs:
             - name: Setup Python
               uses: actions/setup-python@v4
               with:
-                  python-version: 3.9
+                  python-version: 3.11
             - name: Install dependencies
               run: |
                   sudo apt update -y
                   sudo apt install -y tree poppler-utils
                   python -m pip install --upgrade pip
-                  pip install poetry==1.1.11
+                  pip install poetry
                   poetry config virtualenvs.create false
                   poetry install --no-interaction --no-ansi
             - name: Test with pytest
@@ -31,7 +31,7 @@ jobs:
             - name: Parse
               run: ./scripts/parse.sh
             - name: Deploy
-              uses: docker://peaceiris/gh-pages:v2.5.1
+              uses: docker://peaceiris/gh-pages:latest
               env:
                   ACTIONS_DEPLOY_KEY: ${{ secrets.ACTIONS_DEPLOY_KEY }}
                   PUBLISH_BRANCH: gh-pages

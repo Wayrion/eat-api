@@ -171,7 +171,7 @@ class Canteen(ApiRepresentable, Enum):
         Location("Boltzmannstraße 19, Garching", 48.268132, 11.672263),
         422,
         "https://mensa.liste.party/api/",
-        OpenHours(("11:00", "14:00"), ("11:00", "14:00"), ("11:00", "14:00"), ("11:00", "14:00"), ("11:00", "14:00")),
+        OpenHours(("11:00", "14:30"), ("11:00", "14:30"), ("11:00", "14:30"), ("11:00", "14:30"), ("11:00", "14:00")),
     )
     MENSA_LEOPOLDSTR = (
         "Mensa Leopoldstraße",

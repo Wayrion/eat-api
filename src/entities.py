@@ -314,13 +314,13 @@ class Canteen(ApiRepresentable, Enum):
         OpenHours(("09:00", "15:00"), ("09:00", "15:00"), ("09:00", "15:00"), ("09:00", "15:00"), ("09:00", "14:00")),
     )
     STUCAFE_GARCHING = (
-        "StuCafé in der Mensa Garching",
+        "StuBistro Garching",
         Location(
             "Boltzmannstraße 19, Garching",
             48.268268,
             11.6717,
         ),
-        524,
+        426,
         None,
         OpenHours(("09:00", "16:00"), ("09:00", "16:00"), ("09:00", "16:00"), ("09:00", "16:00"), ("09:00", "15:00")),
     )

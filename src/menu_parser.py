@@ -305,9 +305,7 @@ class StudentenwerkMenuParser(MenuParser):
     @staticmethod
     def __parse_dishes(menu_html: html.Element, canteen: Canteen) -> List[Dish]:
         # obtain the names of all dishes in a passed menu
-        dish_names: List[str] = [
-            dish.rstrip() for dish in menu_html.xpath("//p[@class='js-schedule-dish-description']/text()")
-        ]
+        dish_names: List[str] = [dish.rstrip() for dish in menu_html.xpath("//p[@class='c-menu-dish__title']/text()")]
         # make duplicates unique by adding (2), (3) etc. to the names
         dish_names = util.make_duplicates_unique(dish_names)
         # obtain the types of the dishes (e.g. 'Tagesgericht 1')

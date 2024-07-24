@@ -33,10 +33,10 @@ class Price:
     def __repr__(self):
         if self.price_per_unit and self.unit:
             if isinstance(self.base_price, float):
-                return f"{self.base_price:.2f}€ + {self.price_per_unit:.2f} {self.unit}"
+                return f"{self.base_price: .2f}€ + {self.price_per_unit: .2f} {self.unit}"
             return f"{self.base_price} + {self.price_per_unit} {self.unit}"
         if isinstance(self.base_price, float):
-            return f"{self.base_price:.2f}€"
+            return f"{self.base_price: .2f}€"
         return f"{self.base_price}"
 
     def __eq__(self, other: Any) -> bool:

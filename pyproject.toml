@@ -16,7 +16,7 @@ deepl = "^1.2.1"
 mypy = "~1.10"
 pre-commit = "~3.7"
 pylint = "~3.2"
-pytest = "~8.2"
+pytest = "~8.3"
 types-requests = "~2.32"
 
 [tool.mypy]

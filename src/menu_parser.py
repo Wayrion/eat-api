@@ -317,19 +317,20 @@ class StudentenwerkMenuParser(MenuParser):
             dish_types += [current_type]
         # obtain all labels
         dish_markers_additional: List[str] = menu_html.xpath(
-            "//li[contains(@class, 'c-schedule__list-item  u-clearfix  clearfix  "
-            "js-menu__list-item')]/@data-essen-zusatz",
+            "//li[contains(@class, 'c-menu-dish-list__item  u-clearfix  "
+            "clearfix  js-menu__list-item')]/@data-essen-zusatz",
         )
         dish_markers_allergen: List[str] = menu_html.xpath(
-            "//li[contains(@class, 'c-schedule__list-item  u-clearfix  clearfix  "
-            "js-menu__list-item')]/@data-essen-allergene",
+            "//li[contains(@class, 'c-menu-dish-list__item  u-clearfix  "
+            "clearfix  js-menu__list-item')]/@data-essen-allergene",
         )
         dish_markers_type: List[str] = menu_html.xpath(
-            "//li[contains(@class, 'c-schedule__list-item  u-clearfix  clearfix  js-menu__list-item')]/@data-essen-typ",
+            "//li[contains(@class, 'c-menu-dish-list__item  u-clearfix  "
+            "clearfix  js-menu__list-item')]/@data-essen-typ",
         )
         dish_markers_meetless: List[str] = menu_html.xpath(
-            "//li[contains(@class, 'c-schedule__list-item  u-clearfix  clearfix  "
-            "js-menu__list-item')]/@data-essen-fleischlos",
+            "//li[contains(@class, 'c-menu-dish-list__item  u-clearfix  "
+            "clearfix  js-menu__list-item')]/@data-essen-fleischlos",
         )
 
         # create dictionary out of dish name and dish type
@@ -367,7 +368,7 @@ class StudentenwerkMenuParser(MenuParser):
             labels |= StudentenwerkMenuParser._parse_label(dishes_dict[name][2])
             labels |= StudentenwerkMenuParser._parse_label(dishes_dict[name][3])
             StudentenwerkMenuParser.__add_diet(labels, dishes_dict[name][4])
-            # do not prices side dishes
+            # do not price side dishes
             prices: Prices
             if dishes_dict[name][0] == "Beilagen":
                 # set classic prices without any base price

@@ -33,42 +33,42 @@ class StudentenwerkMenuParserTest(unittest.TestCase):
     base_path_canteen = "src/test/assets/studentenwerk/{canteen}"
 
     test_dates = [
-        date(2021, 9, 13),
-        date(2021, 9, 14),
-        date(2021, 9, 15),
-        date(2021, 9, 16),
-        date(2021, 9, 17),
-        date(2021, 9, 20),
-        date(2021, 9, 21),
-        date(2021, 9, 22),
-        date(2021, 9, 23),
-        date(2021, 9, 24),
+        date(2024, 7, 29),
+        date(2024, 7, 30),
+        date(2024, 7, 31),
+        date(2024, 8, 1),
+        date(2024, 8, 2),
+        date(2024, 8, 5),
+        date(2024, 8, 6),
+        date(2024, 8, 7),
+        date(2024, 8, 8),
+        date(2024, 8, 9),
     ]
 
-    test_dates_nov = []
+    def test_get_all_dates(self) -> None:
+        working_days = []
 
-    start_date = date(2021, 11, 1)
-    end_date = date(2021, 12, 1)
+        start_date = date(2024, 7, 23)
+        end_date = date(2024, 8, 30)
+        holidays = {date(2024, 8, 15)}
 
-    # all work days in november
-    while start_date < end_date:
-        # 5 means Saturday and so on
-        if start_date.weekday() not in {5, 6}:
-            test_dates_nov += [start_date]
-        start_date += datetime.timedelta(days=1)
+        while start_date <= end_date:
+            # 5 is Saturday, 6 is Sunday
+            if start_date.weekday() not in {5, 6} and start_date not in holidays:
+                working_days.append(start_date)
+            start_date += datetime.timedelta(days=1)
 
-    def test_studentenwerk(self) -> None:
-        canteens = [Canteen.MENSA_ARCISSTR, Canteen.STUBISTRO_GROSSHADERN, Canteen.MENSA_GARCHING]
-        for canteen in canteens:
-            self.__test_studentenwerk_canteen(canteen)
-
-    def test_get_dates(self) -> None:
         tree = file_util.load_html(
             f"{self.base_path_canteen.format(canteen=Canteen.MENSA_GARCHING.canteen_id)}"
             f"/for-generation/overview.html",
         )
         dates: List[date] = self.studentenwerk_menu_parser.get_available_dates_for_html(tree)
-        self.assertEqual(self.test_dates_nov, dates)
+        self.assertEqual(dates, working_days)
+
+    def test_studentenwerk(self) -> None:
+        canteens = [Canteen.MENSA_ARCISSTR, Canteen.STUBISTRO_GROSSHADERN, Canteen.MENSA_GARCHING]
+        for canteen in canteens:
+            self.__test_studentenwerk_canteen(canteen)
 
     def __test_studentenwerk_canteen(self, canteen: Canteen) -> None:
         menus = self.__get_menus(canteen)
@@ -109,7 +109,7 @@ class StudentenwerkMenuParserTest(unittest.TestCase):
             self.assertEqual(5, week_length)
 
     def test_should_convert_week_to_json(self):
-        calendar_weeks = [37, 38]
+        calendar_weeks = [31, 32]
         menus = self.__get_menus(Canteen.MENSA_GARCHING)
         weeks = Week.to_weeks(menus)
         for calendar_week in calendar_weeks:

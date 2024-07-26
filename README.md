@@ -16,7 +16,7 @@ Simple static API for the canteens of the [Studierendenwerk München Oberbayern]
 | Mensa Weihenstephan            | mensa-weihenstephan            | [Maximus-von-Imhof-Forum 5, Freising](https://www.google.com/maps?q=Maximus-von-Imhof-Forum+5,+Freising)                    |
 | StuBistro Arcisstraße          | stubistro-arcisstr             | [Arcisstraße 12, München](https://www.google.com/maps?q=Arcisstraße+12,+München)                                            |
 | StuBistro Goethestraße         | stubistro-goethestr            | [Goethestraße 70, München](https://www.google.com/maps?q=Goethestraße+70,+München)                                          |
-| StuBistro Großhadern           | stubistro-großhadern           | [Butenandtstraße 13, Gebäude F, München](https://www.google.com/maps?q=Butenandtstraße+13,+Gebäude+F,+München)              |
+| StuBistro Butenandstr          | stubistro-butenandstr          | [Butenandtstraße 13, Gebäude F, München](https://www.google.com/maps?q=Butenandtstraße+13,+Gebäude+F,+München)              |
 | StuBistro Rosenheim            | stubistro-rosenheim            | [Hochschulstraße 1, Rosenheim](https://www.google.com/maps?q=Hochschulstraße+1,+Rosenheim)                                  |
 | StuBistro Schellingstraße      | stubistro-schellingstr         | [Schellingstraße 3, München](https://www.google.com/maps?q=Schellingstraße+3,+München)                                      |
 | StuBistro Martinsried          | stubistro-martinsried          | [Großhadernerstr. 9a, 82152 Planegg-Martinsried](https://www.google.com/maps/place/Gro%C3%9Fhaderner+Str.+9,+82152+Planegg) |

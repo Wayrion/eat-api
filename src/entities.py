@@ -226,8 +226,8 @@ class Canteen(ApiRepresentable, Enum):
         None,
         OpenHours(("11:00", "14:00"), ("11:00", "14:00"), ("11:00", "14:00"), ("11:00", "14:00"), ("11:00", "14:00")),
     )
-    STUBISTRO_GROSSHADERN = (
-        "StuBistro Großhadern",
+    STUBISTRO_BUTENANDSTR = (
+        "StuBistro Butenandstraße",
         Location(
             "Butenandtstraße 13, Gebäude F, München",
             48.11363,

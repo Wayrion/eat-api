@@ -71,7 +71,7 @@ class StudentenwerkMenuParser(MenuParser):
         Canteen.MENSA_WEIHENSTEPHAN,
         Canteen.STUBISTRO_ARCISSTR,
         Canteen.STUBISTRO_GOETHESTR,
-        Canteen.STUBISTRO_GROSSHADERN,
+        Canteen.STUBISTRO_BUTENANDSTR,
         Canteen.STUBISTRO_ROSENHEIM,
         Canteen.STUBISTRO_SCHELLINGSTR,
         Canteen.STUBISTRO_MARTINSRIED,

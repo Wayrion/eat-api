@@ -66,7 +66,7 @@ class StudentenwerkMenuParserTest(unittest.TestCase):
         self.assertEqual(dates, working_days)
 
     def test_studentenwerk(self) -> None:
-        canteens = [Canteen.MENSA_ARCISSTR, Canteen.STUBISTRO_GROSSHADERN, Canteen.MENSA_GARCHING]
+        canteens = [Canteen.MENSA_ARCISSTR, Canteen.STUBISTRO_BUTENANDSTR, Canteen.MENSA_GARCHING]
         for canteen in canteens:
             self.__test_studentenwerk_canteen(canteen)
 

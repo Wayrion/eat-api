@@ -192,8 +192,8 @@ class StudentenwerkMenuParser(MenuParser):
 
     @staticmethod
     def __get_self_service_prices(
-        base_price_type: SelfServiceBasePriceType,
-        price_per_unit_type: SelfServicePricePerUnitType,
+            base_price_type: SelfServiceBasePriceType,
+            price_per_unit_type: SelfServicePricePerUnitType,
     ) -> Prices:
         students: Price = Price(
             base_price_type.price[0],
@@ -242,64 +242,48 @@ class StudentenwerkMenuParser(MenuParser):
         return StudentenwerkMenuParser.__get_self_service_prices(base_price_type, price_per_unit_type)
 
     base_url: str = "http://www.studierendenwerk-muenchen-oberbayern.de/mensa/speiseplan/speiseplan_{url_id}_-de.html"
-    base_url_with_date: str = (
-        "http://www.studierendenwerk-muenchen-oberbayern.de/mensa/speiseplan/speiseplan_{date}_{url_id}_-de.html"
-    )
 
     def parse(self, canteen: Canteen) -> Optional[Dict[datetime.date, Menu]]:
         menus = {}
-        for date in self.__get_available_dates(canteen):
-            page_link: str = self.base_url_with_date.format(url_id=canteen.url_id, date=date.strftime("%Y-%m-%d"))
-            page: requests.Response = requests.get(page_link, timeout=10.0)
-            if page.ok:
-                try:
-                    tree: html.Element = html.fromstring(page.content)
-                    menu = self.get_menu(tree, canteen, date)
+        page_link: str = self.base_url.format(url_id=canteen.url_id)
+        page: requests.Response = requests.get(page_link, timeout=10.0)
+        if page.ok:
+            try:
+                tree: html.Element = html.fromstring(page.content)
+                html_menus: List[html.Element] = self.__get_daily_menus_as_html(tree)
+                for html_menu in html_menus:
+                    html_menu = html.fromstring(html.tostring(html_menu))
+                    menu = self.get_menu(html_menu, canteen)
                     if menu:
-                        menus[date] = menu
+                        menus[menu.menu_date] = menu
                 # pylint: disable=broad-except
-                except Exception as e:
-                    print(f"Exception while parsing menu from {date}. Skipping current date. Exception args: {e.args}")
-                # pylint: enable=broad-except
+            except Exception as e:
+                print(f"Exception while parsing menu. Skipping current date. Exception args: {e.args}")
+        # pylint: enable=broad-except
         return menus
 
-    def get_menu(self, page: html.Element, canteen: Canteen, date: datetime.date) -> Optional[Menu]:
-        # get current menu
-        current_menu: html.Element = self.__get_daily_menus_as_html(page)[0]
-        # get html representation of menu
-        menu_html = html.fromstring(html.tostring(current_menu))
-
+    def get_menu(self, page: html.Element, canteen: Canteen) -> Optional[Menu]:
+        # extract date
+        date = self.extract_date_from_html(page)
         # parse dishes of current menu
-        dishes: List[Dish] = self.__parse_dishes(menu_html, canteen)
+        dishes: List[Dish] = self.__parse_dishes(page, canteen)
         # create menu object
         menu: Menu = Menu(date, dishes)
         return menu
 
-    def __get_available_dates(self, canteen: Canteen) -> List[datetime.date]:
-        page_link: str = self.base_url.format(url_id=canteen.url_id)
-        page: requests.Response = requests.get(page_link, timeout=10.0)
-        tree: html.Element = html.fromstring(page.content)
-        return self.get_available_dates_for_html(tree)
-
     # public for testing
-    def get_available_dates_for_html(self, tree: html.Element) -> List[datetime.date]:
-        dates: List[datetime.date] = []
-        date_strings: List[str] = tree.xpath("//div[@class='c-schedule__item']//strong/text()")
-        for date_str in date_strings:
-            # parse date
-            try:
-                date: datetime.date = util.parse_date(date_str)
-            except ValueError:
-                print(f"Warning: Error during parsing date from html page. Problematic date: {date_str}")
-                # continue and parse subsequent menus
-                continue
-            dates += [date]
-        return dates
+    def extract_date_from_html(self, tree: html.Element) -> Optional[datetime.date]:
+        date_str: str = tree.xpath("//div[@class='c-schedule__item']//strong/text()")[0]
+        try:
+            date: datetime.date = util.parse_date(date_str)
+            return date
+        except ValueError:
+            print(f"Warning: Error during parsing date from html page. Problematic date: {date_str}")
 
     @staticmethod
-    def __get_daily_menus_as_html(page):
+    def __get_daily_menus_as_html(tree: html.Element) -> List[html.Element]:
         # obtain all daily menus found in the passed html page by xpath query
-        daily_menus: page.xpath = page.xpath("//div[@class='c-schedule__item']")  # type: ignore
+        daily_menus: List[html.Element] = tree.xpath("//div[@class='c-schedule__item']")  # type: ignore
         return daily_menus
 
     @staticmethod
@@ -344,12 +328,12 @@ class StudentenwerkMenuParser(MenuParser):
             dish_markers_meetless,
         )
         for (
-            dish_name,
-            dish_type,
-            dish_marker_additional,
-            dish_marker_allergen,
-            dish_marker_type,
-            dish_marker_meetless,
+                dish_name,
+                dish_type,
+                dish_marker_additional,
+                dish_marker_allergen,
+                dish_marker_type,
+                dish_marker_meetless,
         ) in dishes_tup:
             dishes_dict[dish_name] = (
                 dish_type,
@@ -551,7 +535,7 @@ class FMIBistroMenuParser(MenuParser):
                 # However, according to
                 # https://black.readthedocs.io/en/stable/faq.html#why-are-flake8-s-e203-and-w503-violated,
                 # this is against PEP8
-                line[estimated_column_end - delta : min(estimated_column_end + delta, len(line))],  # noqa: E203
+                line[estimated_column_end - delta: min(estimated_column_end + delta, len(line))],  # noqa: E203
             )[0]
         except IndexError:
             return None
@@ -563,7 +547,7 @@ class FMIBistroMenuParser(MenuParser):
                 # However, according to
                 # https://black.readthedocs.io/en/stable/faq.html#why-are-flake8-s-e203-and-w503-violated,
                 # this is against PEP8
-                line[max(estimated_column_begin - delta, 0) : estimated_column_begin + delta],  # noqa: E203
+                line[max(estimated_column_begin - delta, 0): estimated_column_begin + delta],  # noqa: E203
             )[0]
         except IndexError:
             labels_str = ""
@@ -692,7 +676,7 @@ class IPPBistroMenuParser(MenuParser):
         positions4 = [
             (max(a.start() - 3, 0), a.end())
             for a in list(re.finditer(self.split_days_regex_closed, soup_line1))
-            + list(re.finditer(self.split_days_regex_closed, soup_line2))
+                     + list(re.finditer(self.split_days_regex_closed, soup_line2))
         ]
 
         if positions3:  # Two lines "Tagessuppe siehe Aushang"
@@ -718,7 +702,7 @@ class IPPBistroMenuParser(MenuParser):
         lines_weekdays = {"mon": "", "tue": "", "wed": "", "thu": "", "fri": ""}
         # it must be lines[3:] instead of lines[2:] or else the menus would start with "Preis ab 0,90€" (from the
         # soups) instead of the first menu, if there is a day where the bistro is closed.
-        for line in lines[soup_line_index + 3 :]:  # noqa: E203
+        for line in lines[soup_line_index + 3:]:  # noqa: E203
             lines_weekdays["mon"] += " " + line[pos_mon:pos_tue].replace("\n", " ")
             lines_weekdays["tue"] += " " + line[pos_tue:pos_wed].replace("\n", " ")
             lines_weekdays["wed"] += " " + line[pos_wed:pos_thu].replace("\n", " ")

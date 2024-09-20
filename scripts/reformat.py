@@ -1,4 +1,5 @@
 #!/bin/python3
+# pylint: disable=too-many-arguments
 import json
 import os
 import re

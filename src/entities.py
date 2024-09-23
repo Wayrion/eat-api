@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# pylint: disable=too-many-positional-arguments
 
 # Postponed Evaluation of Annotations to allow using a class inside a class for annotations
 from __future__ import annotations

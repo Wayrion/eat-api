@@ -29,7 +29,7 @@ class MenuParser(ABC):
     """
 
     canteens: Set[Canteen]
-    _label_lookup: Dict[str, Set[Label]]
+    _label_subclasses: Dict[str, Set[Label]]
     # we use datetime %u, so we go from 1-7
     weekday_positions: Dict[str, int] = {"mon": 1, "tue": 2, "wed": 3, "thu": 4, "fri": 5, "sat": 6, "sun": 7}
 
@@ -54,7 +54,7 @@ class MenuParser(ABC):
         for value in split_values:
             stripped = value.strip()
             if not stripped.isspace():
-                labels |= cls._label_lookup.get(stripped, set())
+                labels |= cls._label_subclasses.get(stripped, set())
         Label.add_supertype_labels(labels)
         return labels
 
@@ -112,7 +112,7 @@ class StudentenwerkMenuParser(MenuParser):
             self.guests = guests
             self.unit = "100g"
 
-    _label_lookup: Dict[str, Set[Label]] = {
+    _label_subclasses: Dict[str, Set[Label]] = {
         "GQB": {Label.BAVARIA},
         "MSC": {Label.MSC},
         "1": {Label.DYESTUFF},
@@ -241,65 +241,51 @@ class StudentenwerkMenuParser(MenuParser):
                 base_price_type = StudentenwerkMenuParser.SelfServiceBasePriceType.PIZZA_VEGIE
         return StudentenwerkMenuParser.__get_self_service_prices(base_price_type, price_per_unit_type)
 
-    base_url: str = "http://www.studierendenwerk-muenchen-oberbayern.de/mensa/speiseplan/speiseplan_{url_id}_-de.html"
-    base_url_with_date: str = (
-        "http://www.studierendenwerk-muenchen-oberbayern.de/mensa/speiseplan/speiseplan_{date}_{url_id}_-de.html"
-    )
+    base_url: str = "https://www.studierendenwerk-muenchen-oberbayern.de/mensa/speiseplan/speiseplan_{url_id}_-de.html"
 
     def parse(self, canteen: Canteen) -> Optional[Dict[datetime.date, Menu]]:
         menus = {}
-        for date in self.__get_available_dates(canteen):
-            page_link: str = self.base_url_with_date.format(url_id=canteen.url_id, date=date.strftime("%Y-%m-%d"))
-            page: requests.Response = requests.get(page_link, timeout=10.0)
-            if page.ok:
-                try:
-                    tree: html.Element = html.fromstring(page.content)
-                    menu = self.get_menu(tree, canteen, date)
+        page_link: str = self.base_url.format(url_id=canteen.url_id)
+        page: requests.Response = requests.get(page_link, timeout=10.0)
+        if page.ok:
+            try:
+                tree: html.Element = html.fromstring(page.content)
+                html_menus: List[html.Element] = self.get_daily_menus_as_html(tree)
+                for html_menu in html_menus:
+                    # this solves some weird reference? issue where tree.xpath will subsequently always use
+                    # the first element despite looping through seemingly separate elements
+                    html_menu = html.fromstring(html.tostring(html_menu))
+                    menu = self.get_menu(html_menu, canteen)
                     if menu:
-                        menus[date] = menu
+                        menus[menu.menu_date] = menu
                 # pylint: disable=broad-except
-                except Exception as e:
-                    print(f"Exception while parsing menu from {date}. Skipping current date. Exception args: {e.args}")
-                # pylint: enable=broad-except
+            except Exception as e:
+                print(f"Exception while parsing menu. Skipping current date. Exception args: {e.args}")
+        # pylint: enable=broad-except
         return menus
 
-    def get_menu(self, page: html.Element, canteen: Canteen, date: datetime.date) -> Optional[Menu]:
-        # get current menu
-        current_menu: html.Element = self.__get_daily_menus_as_html(page)[0]
-        # get html representation of menu
-        menu_html = html.fromstring(html.tostring(current_menu))
-
-        # parse dishes of current menu
-        dishes: List[Dish] = self.__parse_dishes(menu_html, canteen)
-        # create menu object
+    def get_menu(self, page: html.Element, canteen: Canteen) -> Optional[Menu]:
+        date = self.extract_date_from_html(page)
+        dishes: List[Dish] = self.__parse_dishes(page, canteen)
         menu: Menu = Menu(date, dishes)
         return menu
 
-    def __get_available_dates(self, canteen: Canteen) -> List[datetime.date]:
-        page_link: str = self.base_url.format(url_id=canteen.url_id)
-        page: requests.Response = requests.get(page_link, timeout=10.0)
-        tree: html.Element = html.fromstring(page.content)
-        return self.get_available_dates_for_html(tree)
+    # public for testing
+    @staticmethod
+    def extract_date_from_html(tree: html.Element) -> Optional[datetime.date]:
+        date_str: str = tree.xpath("//div[@class='c-schedule__item']//strong/text()")[0]
+        try:
+            date: datetime.date = util.parse_date(date_str)
+            return date
+        except ValueError:
+            warn(f"Error during parsing date from html page. Problematic date: {date_str}")
+            return None
 
     # public for testing
-    def get_available_dates_for_html(self, tree: html.Element) -> List[datetime.date]:
-        dates: List[datetime.date] = []
-        date_strings: List[str] = tree.xpath("//div[@class='c-schedule__item']//strong/text()")
-        for date_str in date_strings:
-            # parse date
-            try:
-                date: datetime.date = util.parse_date(date_str)
-            except ValueError:
-                print(f"Warning: Error during parsing date from html page. Problematic date: {date_str}")
-                # continue and parse subsequent menus
-                continue
-            dates += [date]
-        return dates
-
     @staticmethod
-    def __get_daily_menus_as_html(page):
+    def get_daily_menus_as_html(tree: html.Element) -> List[html.Element]:
         # obtain all daily menus found in the passed html page by xpath query
-        daily_menus: page.xpath = page.xpath("//div[@class='c-schedule__item']")  # type: ignore
+        daily_menus: List[html.Element] = tree.xpath("//div[@class='c-schedule__item']")
         return daily_menus
 
     @staticmethod
@@ -405,8 +391,7 @@ class FMIBistroMenuParser(MenuParser):
         VEGETARIAN = auto()
         VEGAN = auto()
 
-    # if an label is a subclass of another label,
-    _label_lookup: Dict[str, Set[Label]] = {
+    _label_subclasses: Dict[str, Set[Label]] = {
         "a": {Label.GLUTEN},
         "aW": {Label.WHEAT},
         "aR": {Label.RYE},
@@ -759,7 +744,7 @@ class IPPBistroMenuParser(MenuParser):
                 try:
                     price_obj = Price(float(price_str))
                 except ValueError:
-                    print(f"Warning: Error during parsing price: {price_str}")
+                    warn(f"Error during parsing price: {price_str}")
                 dishes.append(
                     Dish(
                         dish_name.strip(),
@@ -786,7 +771,7 @@ class MedizinerMensaMenuParser(MenuParser):
     labels_regex = r"(\s([A-C]|[E-H]|[K-P]|[R-Z]|[1-9])(,([A-C]|[E-H]|[K-P]|[R-Z]|[1-9]))*(\s|\Z))"
     price_regex = r"(\d+(,(\d){2})\s?€)"
 
-    _label_lookup: Dict[str, Set[Label]] = {
+    _label_subclasses: Dict[str, Set[Label]] = {
         "1": {Label.DYESTUFF},
         "2": {Label.PRESERVATIVES},
         "3": {Label.ANTIOXIDANTS},
@@ -986,7 +971,7 @@ class StraubingMensaMenuParser(MenuParser):
     url = "https://www.stwno.de/infomax/daten-extern/csv/HS-SR/{calendar_week}.csv"
     canteens = {Canteen.MENSA_STRAUBING}
 
-    _label_lookup: Dict[str, Set[Label]] = {
+    _label_subclasses: Dict[str, Set[Label]] = {
         "1": {Label.DYESTUFF},
         "2": {Label.PRESERVATIVES},
         "3": {Label.ANTIOXIDANTS},

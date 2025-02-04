@@ -60,7 +60,6 @@ class MenuParser(ABC):
 
 
 class StudentenwerkMenuParser(MenuParser):
-    # Canteens:
     canteens = {
         Canteen.MENSA_ARCISSTR,
         Canteen.MENSA_GARCHING,
@@ -94,13 +93,13 @@ class StudentenwerkMenuParser(MenuParser):
         SAUSAGE = (0.5, 0.5, 0.5)
         MEAT = (1.0, 1.0, 1.0)
         FISH = (1.5, 1.5, 1.5)
-        PIZZA_VEGIE = (4.0, 4.5, 5.0)
+        PIZZA_VEGGIE = (4.0, 4.5, 5.0)
         PIZZA_MEAT = (4.5, 5.0, 5.5)
 
         def __init__(self, p1, p2, p3):
             self.price = (p1, p2, p3)
 
-    # Meet and vegetarian base prices for Students, Staff, Guests
+    # meat and vegetarian base prices for Students, Staff, Guests
     class SelfServicePricePerUnitType(Enum):
         CLASSIC = 0.80, 1.00, 1.35
         SOUP_STEW = 0.33, 0.65, 1.35
@@ -122,7 +121,7 @@ class StudentenwerkMenuParser(MenuParser):
         "5": {Label.SULPHURS},
         "6": {Label.DYESTUFF},
         "7": {Label.WAXED},
-        "8": {Label.PHOSPATES},
+        "8": {Label.PHOSPHATES},
         "9": {Label.SWEETENERS},
         "10": {Label.PHENYLALANINE},
         "11": {Label.SWEETENERS},
@@ -152,7 +151,7 @@ class StudentenwerkMenuParser(MenuParser):
         "ScH": {Label.HAZELNUTS},
         "ScW": {Label.WALNUTS},
         "ScC": {Label.CASHEWS},
-        "ScP": {Label.PISTACHIOES},
+        "ScP": {Label.PISTACHIOS},
         "Se": {Label.SESAME},
         "Sf": {Label.MUSTARD},
         "Sl": {Label.CELERY},
@@ -238,7 +237,7 @@ class StudentenwerkMenuParser(MenuParser):
             if dish[4] == "0":
                 base_price_type = StudentenwerkMenuParser.SelfServiceBasePriceType.PIZZA_MEAT
             else:
-                base_price_type = StudentenwerkMenuParser.SelfServiceBasePriceType.PIZZA_VEGIE
+                base_price_type = StudentenwerkMenuParser.SelfServiceBasePriceType.PIZZA_VEGGIE
         return StudentenwerkMenuParser.__get_self_service_prices(base_price_type, price_per_unit_type)
 
     base_url: str = "https://www.studierendenwerk-muenchen-oberbayern.de/mensa/speiseplan/speiseplan_{url_id}_-de.html"
@@ -314,7 +313,7 @@ class StudentenwerkMenuParser(MenuParser):
             "//li[contains(@class, 'c-menu-dish-list__item  u-clearfix  "
             "clearfix  js-menu__list-item')]/@data-essen-typ",
         )
-        dish_markers_meetless: List[str] = menu_html.xpath(
+        dish_markers_meatless: List[str] = menu_html.xpath(
             "//li[contains(@class, 'c-menu-dish-list__item  u-clearfix  "
             "clearfix  js-menu__list-item')]/@data-essen-fleischlos",
         )
@@ -327,7 +326,7 @@ class StudentenwerkMenuParser(MenuParser):
             dish_markers_additional,
             dish_markers_allergen,
             dish_markers_type,
-            dish_markers_meetless,
+            dish_markers_meatless,
         )
         for (
             dish_name,
@@ -335,14 +334,14 @@ class StudentenwerkMenuParser(MenuParser):
             dish_marker_additional,
             dish_marker_allergen,
             dish_marker_type,
-            dish_marker_meetless,
+            dish_marker_meatless,
         ) in dishes_tup:
             dishes_dict[dish_name] = (
                 dish_type,
                 dish_marker_additional,
                 dish_marker_allergen,
                 dish_marker_type,
-                dish_marker_meetless,
+                dish_marker_meatless,
             )
 
         # create Dish objects with correct prices; if prices is not available, -1 is used instead
@@ -412,7 +411,7 @@ class FMIBistroMenuParser(MenuParser):
         "hW": {Label.WALNUTS},
         "hK": {Label.CASHEWS},
         "hPe": {Label.PECAN},
-        "hPi": {Label.PISTACHIOES},
+        "hPi": {Label.PISTACHIOS},
         "hQ": {Label.MACADAMIA},
         "i": {Label.CELERY},
         "j": {Label.MUSTARD},
@@ -558,7 +557,7 @@ class FMIBistroMenuParser(MenuParser):
 class IPPBistroMenuParser(MenuParser):
     canteens = {Canteen.IPP_BISTRO}
 
-    url = "http://konradhof-catering.com/ipp/"
+    url = "https://konradhof-catering.com/ipp/"
     split_days_regex: Pattern[str] = re.compile(
         r"(Tagessuppe siehe Aushang|Aushang|Aschermittwoch|Feiertag|Geschlossen)",
         re.IGNORECASE,
@@ -702,7 +701,7 @@ class IPPBistroMenuParser(MenuParser):
 
         lines_weekdays = {"mon": "", "tue": "", "wed": "", "thu": "", "fri": ""}
         # it must be lines[3:] instead of lines[2:] or else the menus would start with "Preis ab 0,90€" (from the
-        # soups) instead of the first menu, if there is a day where the bistro is closed.
+        # soups) instead of the first menu, if there is a day when the bistro is closed.
         for line in lines[soup_line_index + 3 :]:  # noqa: E203
             lines_weekdays["mon"] += " " + line[pos_mon:pos_tue].replace("\n", " ")
             lines_weekdays["tue"] += " " + line[pos_tue:pos_wed].replace("\n", " ")
@@ -711,7 +710,7 @@ class IPPBistroMenuParser(MenuParser):
             lines_weekdays["fri"] += " " + line[pos_fri:].replace("\n", " ")
 
         for key in lines_weekdays:
-            # Appends `?€` to „Überraschungsmenü“ if it do not have a price. The second '€' is a separator for the
+            # Appends `?€` to „Überraschungsmenü“ if it does not have a price. The second '€' is a separator for the
             # later split
             # pylint:disable=E4702
             lines_weekdays[key] = self.surprise_without_price_regex.sub(r"\g<1>?€ € \g<2>", lines_weekdays[key])
@@ -730,7 +729,7 @@ class IPPBistroMenuParser(MenuParser):
                 dish_types = ["Tagesgericht"] * len(dish_names_price)
 
             # create labels
-            # all dishes have the same ingridients
+            # all dishes have the same ingredients
             # TODO: switch to new label and Canteen enum
             # labels = IngredientsOld("ipp-bistro")
             # labels.parse_labels("Mi,Gl,Sf,Sl,Ei,Se,4")
@@ -779,7 +778,7 @@ class MedizinerMensaMenuParser(MenuParser):
         "5": {Label.SULPHURS},
         "6": {Label.DYESTUFF},
         "7": {Label.WAXED},
-        "8": {Label.PHOSPATES},
+        "8": {Label.PHOSPHATES},
         "9": {Label.SWEETENERS},
         "A": {Label.ALCOHOL},
         "B": {Label.GLUTEN},
@@ -871,7 +870,7 @@ class MedizinerMensaMenuParser(MenuParser):
         lines = text.splitlines()
 
         # get dish types
-        # its the line before the first "***..." line
+        # it's the line before the first "***..." line
         dish_types_line = ""
         last_non_empty_line = -1
         for i, line in enumerate(lines):
@@ -979,7 +978,7 @@ class StraubingMensaMenuParser(MenuParser):
         "5": {Label.SULPHURS},
         "6": {Label.DYESTUFF},
         "7": {Label.WAXED},
-        "8": {Label.PHOSPATES},
+        "8": {Label.PHOSPHATES},
         "9": {Label.SWEETENERS},
         "10": {Label.PHENYLALANINE},
         "16": {Label.SULFITES},
@@ -1001,7 +1000,7 @@ class StraubingMensaMenuParser(MenuParser):
         "HC": {Label.WALNUTS},
         "HD": {Label.CASHEWS},
         "HE": {Label.PECAN},
-        "HG": {Label.PISTACHIOES},
+        "HG": {Label.PISTACHIOS},
         "HH": {Label.MACADAMIA},
         "I": {Label.CELERY},
         "J": {Label.MUSTARD},

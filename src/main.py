@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import json
 import os
+import sys
 from typing import Dict, Optional
 
 import cli
@@ -87,20 +88,17 @@ def main():
 
     # print canteens
     if args.canteens:
-        print(enum_json_creator.enum_to_api_representation_dict(list(Canteen)))
-        return
+        sys.exit(enum_json_creator.enum_to_api_representation_dict(list(Canteen)))
 
     canteen = Canteen.get_canteen_by_str(args.canteen)
     # get required parser
     parser = get_menu_parsing_strategy(canteen)
     if not parser:
-        print("Canteen parser not found")
-        return
+        sys.exit("Canteen parser not found")
 
     menus = parser.parse(canteen)
     if menus is None:
-        print("Error. Could not retrieve menu(s)")
-        return
+        sys.exit("Error. Could not retrieve menu(s)")
 
     # sort dishes before translating to keep the order
     for menu in menus.values():
@@ -117,8 +115,7 @@ def main():
             menu_date = util.parse_date(args.date)
         except ValueError:
             print(f"Error during parsing date from command line: {args.date}")
-            print(f"Required format: {util.cli_date_format}")
-            return
+            sys.exit(f"Required format: {util.cli_date_format}")
 
     # jsonify argument is set
     if args.jsonify is not None:
@@ -134,11 +131,10 @@ def main():
     # date argument is set
     elif args.date is not None:
         if menu_date not in menus:
-            print(f"There is no menu for '{canteen}' on {menu_date}!")
-            return
+            sys.exit(f"There is no menu for '{canteen}' on {menu_date}!")
         menu = menus[menu_date]
         print(menu)
-    # else, print weeks
+    # print weeks otherwise
     elif menus is not None:
         weeks = Week.to_weeks(menus)
         for calendar_week in weeks:

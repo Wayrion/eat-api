@@ -97,8 +97,18 @@ def main():
         print("Canteen parser not found")
         return
 
-    # parse menu
     menus = parser.parse(canteen)
+    if menus is None:
+        print("Error. Could not retrieve menu(s)")
+        return
+
+    # sort dishes before translating to keep the order
+    for menu in menus.values():
+        menu.dishes.sort(key=lambda dish: dish.name)
+
+    # optionally translate the dish titles
+    if args.language is not None and args.language.upper() != "DE":
+        util.translate_dishes(menus, args.language)
 
     # if date has been explicitly specified, try to parse it
     menu_date = None
@@ -109,16 +119,6 @@ def main():
             print(f"Error during parsing date from command line: {args.date}")
             print(f"Required format: {util.cli_date_format}")
             return
-
-    # print menu
-    if menus is None:
-        print("Error. Could not retrieve menu(s)")
-
-    # optionally translate the dish titles
-    if args.language is not None and args.language.upper() != "DE":
-        translated = util.translate_dishes(menus, args.language)
-        if not translated:
-            print("Error. The translation was not successful")
 
     # jsonify argument is set
     if args.jsonify is not None:

@@ -34,7 +34,7 @@ def make_duplicates_unique(names_with_duplicates):
     return names_without_duplicates
 
 
-def translate_dishes(menus: Dict[date, Menu], language: str) -> bool:
+def translate_dishes(menus: Dict[date, Menu], language: str) -> None:
     """
     Translate the dish titles of a menu
 
@@ -45,20 +45,13 @@ def translate_dishes(menus: Dict[date, Menu], language: str) -> bool:
     # get api key from environment, abort if not given
     deepl_api_key = os.environ.get("DEEPL_API_KEY_EAT_API")
     if deepl_api_key is None:
-        raise TypeError("For translation please provide a DeepL api key via DEEPL_API_KEY_EAT_API")
+        raise ValueError("For translation please provide a DeepL api key via DEEPL_API_KEY_EAT_API")
 
     translator = deepl.Translator(deepl_api_key)
-    # source language is always german
-    source_language = "DE"
-
-    # don't use deepl, when already correct language
-    if source_language.lower() == language.lower():
-        return True
 
     # traverse through all dish titles
     for menu in menus.values():
         for dish in menu.dishes:
-            result = translator.translate_text(dish.name, source_lang=source_language, target_lang=language)
+            # source language is always german
+            result = translator.translate_text(dish.name, source_lang="DE", target_lang=language)
             dish.name = result.text
-
-    return True

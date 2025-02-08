@@ -114,7 +114,7 @@
     }
   },
   {
-    "enum_name": "PISTACHIOES",
+    "enum_name": "PISTACHIOS",
     "text": {
       "DE": "Pistazien"
     }
@@ -216,7 +216,7 @@
     }
   },
   {
-    "enum_name": "PHOSPATES",
+    "enum_name": "PHOSPHATES",
     "text": {
       "DE": "Phosphate"
     }

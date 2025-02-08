@@ -1,6 +1,6 @@
 # eat-api
 
-[![Actions Status](https://github.com/TUM-Dev/eat-api/workflows/CI%2FCD/badge.svg)](https://github.com/TUM-Dev/eat-api/actions)
+[![Actions Status de](https://github.com/TUM-Dev/eat-api/workflows/publish/badge.svg)](https://github.com/TUM-Dev/eat-api/actions)[![Actions Status en](https://github.com/TUM-Dev/eat-api/workflows/publish_en/badge.svg)](https://github.com/TUM-Dev/eat-api/actions)
 
 
 Simple static API for the canteens of the [Studierendenwerk München Oberbayern](http://www.studierendenwerk-muenchen-oberbayern.de) as well as some other canteens. By now, the following canteens are supported:

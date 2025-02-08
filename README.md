@@ -60,7 +60,7 @@ https://tum-dev.github.io/eat-api/mensa-garching/2019/20.json
 The JSON files are produced by the tool shown in this repository. Hence, it is either possible to access the API or use the tool itself to obtain the desired menu data. The CLI needs to be used as follows:
 
 ```bash
-$ src/python3 main.py --help
+$ python3 src/main.py --help
 usage: main.py [-h] [-p CANTEEN] [-d DATE] [-j PATH] [-c] [--openmensa PATH]
                [--canteens] [--language LANGUAGE]
 
@@ -111,10 +111,11 @@ The `canteens.json` and `label.json` are generated from the `Canteen` and `Label
 -   Parser for [OpenMensa](https://openmensa.org) ([GitHub](https://github.com/openmensa/openmensa))
     -   [Wilhelm Gastronomie im FMI Gebäude der TUM Garching](https://openmensa.org/c/773)
     -   [Konradhofer Catering - Betriebskantine IPP](https://openmensa.org/c/774)
--   [Hunger | TUM.sexy](http://tum.sexy/hunger/) ([Github](https://github.com/mammuth/TUM.sexy))
+-   [Hunger | TUM.sexy](https://tum.sexy/hunger/) ([Github](https://github.com/mammuth/TUM.sexy))
 -   `FMeat.php` SDK ([GitHub](https://github.com/jpbernius/fmeat.php))
 -   [Telegram](https://telegram.org/) bot for [Channel t.me/lunchgfz](https://t.me/lunchgfz) ([GitLab](https://gitlab.com/raabf/lunchgfz-telegram))
--   UWP-TUM-Campus-App ([Github](https://github.com/COM8/UWP-TUM-Campus-App))
+-   UWP-TUM-Campus-App ([GitHub](https://github.com/COM8/UWP-TUM-Campus-App))
+-   Mensaplan ([GitHub](https://github.com/Friendly-Banana/mensaplan))
 
 ## Contributing
 

@@ -53,7 +53,7 @@ class Price:
         return {"base_price": self.base_price, "price_per_unit": self.price_per_unit, "unit": self.unit}
 
     def __hash__(self) -> int:
-        # http://stackoverflow.com/questions/4005318/how-to-implement-a-good-hash-function-in-python
+        # https://stackoverflow.com/questions/4005318/how-to-implement-a-good-hash-function-in-python
         return (hash(self.base_price) << 1) ^ hash(self.price_per_unit) ^ hash(self.unit)
 
 
@@ -98,7 +98,7 @@ class Prices:
         }
 
     def __hash__(self) -> int:
-        # http://stackoverflow.com/questions/4005318/how-to-implement-a-good-hash-function-in-python
+        # https://stackoverflow.com/questions/4005318/how-to-implement-a-good-hash-function-in-python
         return hash(self.students) ^ hash(self.staff) ^ hash(self.guests)
 
 
@@ -151,7 +151,7 @@ class OpenHours:
 
 
 class Canteen(ApiRepresentable, Enum):
-    # Some of the canteens do not use the general Studentenwerk system and therefore do not have a url_id.
+    # Some of the canteens do not use the general Studentenwerk system and therefore do not have an url_id.
     def __init__(self, long_name: str, location: Location, url_id: int, queue_status: str, open_hours: OpenHours):
         self.long_name = long_name
         self.site = location
@@ -368,7 +368,7 @@ class Canteen(ApiRepresentable, Enum):
         OpenHours(("07:30", "15:00"), ("07:30", "15:00"), ("07:30", "15:00"), ("07:30", "15:00"), ("07:30", "14:30")),
     )
     MENSA_BILDUNGSCAMPUS_HEILBRONN = (
-        "Mensa Buildungscampus Heilbronn",
+        "Mensa Bildungscampus Heilbronn",
         Location("Bildungscampus 8, 74076 Heilbronn", 49.14863559683538, 9.21598792582061),
         None,
         None,
@@ -440,8 +440,8 @@ class Label(ApiRepresentable, Enum):
     HAZELNUTS = {Language.DE: "Haselnüsse", Language.EN: "hazelnuts"}, "🌰"
     WALNUTS = {Language.DE: "Walnüsse", Language.EN: "walnuts"}, "ScW"
     CASHEWS = {Language.DE: "Cashewnüsse", Language.EN: "cashews"}, "ScC"
-    PECAN = {Language.DE: "Pekanüsse", Language.EN: "pecans"}, "ScP"
-    PISTACHIOES = {Language.DE: "Pistazien", Language.EN: "pistachios"}, "ScP"
+    PECAN = {Language.DE: "Pekannüsse", Language.EN: "pecans"}, "ScP"
+    PISTACHIOS = {Language.DE: "Pistazien", Language.EN: "pistachios"}, "ScP"
     MACADAMIA = {Language.DE: "Macadamianüsse", Language.EN: "macadamias"}, "ScMa"
     CELERY = {Language.DE: "Sellerie", Language.EN: "celery"}, "Sl"
     MUSTARD = {Language.DE: "Senf", Language.EN: "mustard"}, "Sf"
@@ -455,13 +455,13 @@ class Label(ApiRepresentable, Enum):
     BAVARIA = {Language.DE: "Zertifizierte Qualität Bayern", Language.EN: "Certified quality Bavaria"}, "GQB"
     MSC = {Language.DE: "Marine Stewardship Council", Language.EN: "Marine Stewardship Council"}, "🎣"
     DYESTUFF = {Language.DE: "Farbstoffe", Language.EN: "dyestuff"}, "🎨"
-    PRESERVATIVES = {Language.DE: "Preservate", Language.EN: "preservatives"}, "🥫"
-    ANTIOXIDANTS = {Language.DE: "Antioxidanten", Language.EN: "antioxidants"}, "⚗"
+    PRESERVATIVES = {Language.DE: "Konservierungsstoffe", Language.EN: "preservatives"}, "🥫"
+    ANTIOXIDANTS = {Language.DE: "Antioxidantien", Language.EN: "antioxidants"}, "⚗"
     FLAVOR_ENHANCER = {Language.DE: "Geschmacksverstärker", Language.EN: "flavor enhancer"}, "🔬"
     WAXED = {Language.DE: "Gewachst", Language.EN: "waxed"}, "🐝"
-    PHOSPATES = {Language.DE: "Phosphate", Language.EN: "phosphates"}, "🔷"
+    PHOSPHATES = {Language.DE: "Phosphate", Language.EN: "phosphates"}, "🔷"
     SWEETENERS = {Language.DE: "Süßungsmittel", Language.EN: "sweeteners"}, "🍬"
-    PHENYLALANINE = {Language.DE: "Phenylaline", Language.EN: "with a source of phenylalanine"}, "💊"
+    PHENYLALANINE = {Language.DE: "Phenylalanin", Language.EN: "with a source of phenylalanine"}, "💊"
     COCOA_CONTAINING_GREASE = {Language.DE: "Kakaohaltiges Fett", Language.EN: "cocoa-containing grease"}, "🍫"
     GELATIN = {Language.DE: "Gelatine", Language.EN: "gelatin"}, "🍮"
     ALCOHOL = {Language.DE: "Alkohol", Language.EN: "alcohol"}, "🍷"
@@ -491,7 +491,7 @@ class Label(ApiRepresentable, Enum):
             Label.MACADAMIA,
             Label.CASHEWS,
             Label.PECAN,
-            Label.PISTACHIOES,
+            Label.PISTACHIOS,
             Label.SESAME,
             Label.WALNUTS,
         }:

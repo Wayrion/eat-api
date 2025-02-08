@@ -111,10 +111,9 @@ The `canteens.json` and `label.json` are generated from the `Canteen` and `Label
 -   Parser for [OpenMensa](https://openmensa.org) ([GitHub](https://github.com/openmensa/openmensa))
     -   [Wilhelm Gastronomie im FMI Gebäude der TUM Garching](https://openmensa.org/c/773)
     -   [Konradhofer Catering - Betriebskantine IPP](https://openmensa.org/c/774)
--   [Hunger | TUM.sexy](https://tum.sexy/hunger/) ([Github](https://github.com/mammuth/TUM.sexy))
 -   `FMeat.php` SDK ([GitHub](https://github.com/jpbernius/fmeat.php))
 -   [Telegram](https://telegram.org/) bot for [Channel t.me/lunchgfz](https://t.me/lunchgfz) ([GitLab](https://gitlab.com/raabf/lunchgfz-telegram))
--   UWP-TUM-Campus-App ([GitHub](https://github.com/COM8/UWP-TUM-Campus-App))
+-   TUM-Campus-App ([GitHub](https://github.com/TUM-Dev/campus_flutter))
 -   Mensaplan ([GitHub](https://github.com/Friendly-Banana/mensaplan))
 
 ## Contributing

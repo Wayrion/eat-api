@@ -89,6 +89,10 @@ def main():
     # print canteens
     if args.canteens:
         sys.exit(enum_json_creator.enum_to_api_representation_dict(list(Canteen)))
+    if args.canteen_ids:
+        for c in list(Canteen):
+            print(c.canteen_id)
+        sys.exit()
 
     canteen = Canteen.get_canteen_by_str(args.canteen)
     # get required parser

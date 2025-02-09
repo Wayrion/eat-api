@@ -46,6 +46,11 @@ def parse_cli_args():
         action="store_true",
         help="prints all available canteens formated as JSON",
     )
+    group.add_argument(
+        "--canteen-ids",
+        action="store_true",
+        help="prints all available canteen IDs to stdout with a new line after each canteen",
+    )
     parser.add_argument(
         "--language",
         help="The language to translate the dish titles to, "

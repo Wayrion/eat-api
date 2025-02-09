@@ -1,6 +1,8 @@
 #!/bin/bash
 
-CANTEEN_LIST=$(python3 src/main.py --canteens | python3 scripts/parse_canteen_list.py)
+set -e
+
+CANTEEN_LIST=$(python3 src/main.py --canteen-ids)
 OUT_DIR="${OUT_DIR:-dist}"
 LANGUAGE="${LANGUAGE_EAT_API:-DE}"
 

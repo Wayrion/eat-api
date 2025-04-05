@@ -67,10 +67,17 @@ select = [
     "T203", # flake8-print
     "S", # flake8-bandit = bandit
     "F541", "FLY002", "RUF027", # flake8-use-fstrings
-    #TODO "PL", # pylint
+    "PL", # pylint
 ]
 ignore = [
     "COM812", # handled by formatter
     "B028", # warn should output the line it's called on
     "SIM108", # ternary is less readable than if-else
+    "PLW2901", # assign to for loop variable
+    # TODO code quality
+    "PLR0912", "PLR0915", "PLR0914", # too many branches / statements / local variables
+    "PLR1702", # too many nested blocks
+    "PLR2004", # magic values
+    "PLR6201", # use sets for contains
+    "PLW1641", # should use dataclass
 ]

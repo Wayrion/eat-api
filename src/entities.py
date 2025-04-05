@@ -633,8 +633,7 @@ class Week:
     def to_weeks(menus: Dict[datetime.date, Menu]) -> Dict[int, Week]:
         weeks: Dict[int, Week] = {}
         if menus:
-            for menu_key in menus:
-                menu: Menu = menus[menu_key]
+            for menu in menus.values():
                 menu_date = menu.menu_date
                 # get calendar week
                 calendar_week = menu_date.isocalendar()[1]

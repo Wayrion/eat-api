@@ -318,44 +318,25 @@ class StudentenwerkMenuParser(MenuParser):
             "clearfix  js-menu__list-item')]/@data-essen-fleischlos",
         )
 
-        # create dictionary out of dish name and dish type
-        dishes_dict: Dict[str, Tuple[str, str, str, str, str]] = {}
-        dishes_tup: zip = zip(
+        # create Dish objects with prices
+        dishes: List[Dish] = []
+        for dish_name, dish_type, additional_marker, allergen_marker, type_marker, meatless_marker in zip(
             dish_names,
             dish_types,
             dish_markers_additional,
             dish_markers_allergen,
             dish_markers_type,
             dish_markers_meatless,
-        )
-        for (
-            dish_name,
-            dish_type,
-            dish_marker_additional,
-            dish_marker_allergen,
-            dish_marker_type,
-            dish_marker_meatless,
-        ) in dishes_tup:
-            dishes_dict[dish_name] = (
-                dish_type,
-                dish_marker_additional,
-                dish_marker_allergen,
-                dish_marker_type,
-                dish_marker_meatless,
-            )
-
-        # create Dish objects with correct prices; if prices is not available, -1 is used instead
-        dishes: List[Dish] = []
-        for name in dishes_dict:
+        ):
             # parse labels
             labels = set()
-            labels |= StudentenwerkMenuParser._parse_label(dishes_dict[name][1])
-            labels |= StudentenwerkMenuParser._parse_label(dishes_dict[name][2])
-            labels |= StudentenwerkMenuParser._parse_label(dishes_dict[name][3])
-            StudentenwerkMenuParser.__add_diet(labels, dishes_dict[name][4])
+            labels |= StudentenwerkMenuParser._parse_label(additional_marker)
+            labels |= StudentenwerkMenuParser._parse_label(allergen_marker)
+            labels |= StudentenwerkMenuParser._parse_label(type_marker)
+            StudentenwerkMenuParser.__add_diet(labels, meatless_marker)
             # do not price side dishes
             prices: Prices
-            if dishes_dict[name][0] == "Beilagen":
+            if dish_type == "Beilagen":
                 # set classic prices without any base price
                 prices = StudentenwerkMenuParser.__get_self_service_prices(
                     StudentenwerkMenuParser.SelfServiceBasePriceType.VEGETARIAN_SOUP_STEW,
@@ -363,8 +344,10 @@ class StudentenwerkMenuParser(MenuParser):
                 )
             else:
                 # find prices
-                prices = StudentenwerkMenuParser.__get_price(canteen, dishes_dict[name], name)
-            dishes.append(Dish(name, prices, labels, dishes_dict[name][0]))
+                values = (dish_type, additional_marker, allergen_marker, type_marker, meatless_marker)
+                prices = StudentenwerkMenuParser.__get_price(canteen, values, dish_name)
+            dishes.append(Dish(dish_name, prices, labels, dish_type))
+
         return dishes
 
     @staticmethod
@@ -705,18 +688,16 @@ class IPPBistroMenuParser(MenuParser):
             lines_weekdays["thu"] += " " + line[pos_thu:pos_fri].replace("\n", " ")
             lines_weekdays["fri"] += " " + line[pos_fri:].replace("\n", " ")
 
-        for key in lines_weekdays:
+        for key, line in lines_weekdays.items():
             # Appends `?€` to „Überraschungsmenü“ if it does not have a price. The second '€' is a separator for the
             # later split
-            # pylint:disable=E4702
-            lines_weekdays[key] = self.surprise_without_price_regex.sub(r"\g<1>?€ € \g<2>", lines_weekdays[key])
+            line = self.surprise_without_price_regex.sub(r"\g<1>?€ € \g<2>", line)
             # get rid of two-character umlauts (e.g. SMALL_LETTER_A+COMBINING_DIACRITICAL_MARK_UMLAUT)
-            lines_weekdays[key] = unicodedata.normalize("NFKC", lines_weekdays[key])
+            line = unicodedata.normalize("NFKC", line)
             # remove multi-whitespaces
-            lines_weekdays[key] = " ".join(lines_weekdays[key].split())
-            # pylint:enable=E4702
+            line = " ".join(line.split())
             # get all dish including name and price
-            dish_names_price = re.findall(self.dish_regex, lines_weekdays[key] + " ")
+            dish_names_price = re.findall(self.dish_regex, line + " ")
             # create dish types
             # since we have the same dish types every day we can use them if there are 4 dishes available
             if len(dish_names_price) == 4:
@@ -726,12 +707,17 @@ class IPPBistroMenuParser(MenuParser):
 
             # create labels
             # all dishes have the same ingredients
-            # TODO: switch to new label and Canteen enum
-            # labels = IngredientsOld("ipp-bistro")
-            # labels.parse_labels("Mi,Gl,Sf,Sl,Ei,Se,4")
+            labels = {
+                Label.LACTOSE,
+                Label.GLUTEN,
+                Label.MUSTARD,
+                Label.CELERY,
+                Label.CHICKEN_EGGS,
+                Label.SESAME,
+                Label.FLAVOR_ENHANCER,
+            }
+            Label.add_supertype_labels(labels)
             # create list of Dish objects
-            # see TODO above
-            labels: Set[Label] = set()
             dishes = []
             for i, (dish_name, price) in enumerate(dish_names_price):
                 price_str: str = price.replace(",", ".").strip()
@@ -914,8 +900,8 @@ class MedizinerMensaMenuParser(MenuParser):
         }
 
         menus = {}
-        for key in days:
-            day_lines = unicodedata.normalize("NFKC", days[key]).splitlines(True)
+        for key, day in days.items():
+            day_lines = unicodedata.normalize("NFKC", day).splitlines(True)
             soup_str = ""
             mains_str = ""
             for day_line in day_lines:
@@ -931,13 +917,13 @@ class MedizinerMensaMenuParser(MenuParser):
             dishes = []
             if soup.name not in ["", "Feiertag"]:
                 dishes.append(soup)
-            # https://regex101.com/r/MDFu1Z/1
 
             # prepare dish type
             dish_type = ""
             if len(dish_types) > 1:
                 dish_type = dish_types[1]
 
+            # https://regex101.com/r/MDFu1Z/1
             for dish_str in re.split(r"(\n{2,}|(?<!mit)\n(?=[A-Z]))", mains_str):
                 if "Extraessen" in dish_str:
                     # now only "Extraessen" will follow

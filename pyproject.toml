@@ -56,19 +56,21 @@ line-ending = "lf"
 select = [
     "F", # flake8
     "I", # isort
+    "E", "W", # pep8 = pycodestyle
     "PGH004", # pygrep-hooks check-blanket-noqa
-    #"ANN", # pygrep-hooks use-type-annotations
+    "PYI033", # pygrep-hooks use-type-annotations
     "COM", # flake8-commas
     "B", # flake8-bugbear, B006 = flake8-mutable
     "C4", # flake8-comprehensions
     "RET", # flake8-return
-    #"SIM", # flake8-simplify
+    "SIM", # flake8-simplify
     "T203", # flake8-print
-    #"S", # flake8-bandit / bandit
+    "S", # flake8-bandit = bandit
     "F541", "FLY002", "RUF027", # flake8-use-fstrings
-    #"PL", # pylint
+    #TODO "PL", # pylint
 ]
 ignore = [
     "COM812", # handled by formatter
     "B028", # warn should output the line it's called on
+    "SIM108", # ternary is less readable than if-else
 ]

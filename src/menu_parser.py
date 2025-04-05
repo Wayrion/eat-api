@@ -8,12 +8,12 @@ import tempfile
 import unicodedata
 from abc import ABC, abstractmethod
 from enum import Enum, auto
-from subprocess import call  # nosec: all the inputs is fully defined
+from subprocess import call  # noqa: S404 all the inputs is fully defined
 from typing import Dict, List, Optional, Pattern, Set, Tuple
 from warnings import warn
 
 import requests  # type: ignore
-from lxml import html  # nosec: https://github.com/TUM-Dev/eat-api/issues/19
+from lxml import html
 
 from entities import Canteen, Dish, Label, Menu, Price, Prices, Week
 from utils import util
@@ -437,9 +437,7 @@ class FMIBistroMenuParser(MenuParser):
                     temp_pdf.write(page.content)
                     with tempfile.NamedTemporaryFile() as temp_txt:
                         # convert pdf to text by calling pdftotext
-                        call(
-                            ["pdftotext", "-layout", temp_pdf.name, temp_txt.name],
-                        )  # nosec: all input is fully defined
+                        call(["/usr/bin/pdftotext", "-layout", temp_pdf.name, temp_txt.name])  # noqa: S603 all input is fully defined
                         with open(temp_txt.name, "r", encoding="utf-8") as myfile:
                             # read generated text file
                             data = myfile.read()
@@ -599,9 +597,7 @@ class IPPBistroMenuParser(MenuParser):
                 temp_pdf.write(response.content)
                 with tempfile.NamedTemporaryFile() as temp_txt:
                     # convert pdf to text by calling pdftotext; only convert first page to txt (-l 1)
-                    call(
-                        ["pdftotext", "-l", "1", "-layout", temp_pdf.name, temp_txt.name],
-                    )  # nosec: all input is fully defined
+                    call(["/usr/bin/pdftotext", "-l", "1", "-layout", temp_pdf.name, temp_txt.name])  # noqa: S603 all input is fully defined
                     with open(temp_txt.name, "r", encoding="utf-8") as myfile:
                         # read generated text file
                         data = myfile.read()
@@ -858,9 +854,7 @@ class MedizinerMensaMenuParser(MenuParser):
             temp_pdf.write(response.content)
             with tempfile.NamedTemporaryFile() as temp_txt:
                 # convert pdf to text by calling pdftotext; only convert first page to txt (-l 1)
-                call(
-                    ["pdftotext", "-l", "1", "-layout", temp_pdf.name, temp_txt.name],
-                )  # nosec: all input is fully defined
+                call(["/usr/bin/pdftotext", "-l", "1", "-layout", temp_pdf.name, temp_txt.name])  # noqa: S603 all input is fully defined
                 with open(temp_txt.name, "r", encoding="utf-8") as myfile:
                     # read generated text file
                     data = myfile.read()

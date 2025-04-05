@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-# pylint:disable=too-many-lines
 
 import csv
 import datetime
@@ -257,10 +256,8 @@ class StudentenwerkMenuParser(MenuParser):
                     menu = self.get_menu(html_menu, canteen)
                     if menu:
                         menus[menu.menu_date] = menu
-                # pylint: disable=broad-except
             except Exception as e:
                 print(f"Exception while parsing menu. Skipping current date. Exception args: {e.args}")
-        # pylint: enable=broad-except
         return menus
 
     def get_menu(self, page: html.Element, canteen: Canteen) -> Optional[Menu]:
@@ -512,11 +509,7 @@ class FMIBistroMenuParser(MenuParser):
         try:
             price_str = re.findall(
                 r"\d+(?:,\d+)?",
-                # pre-commit tool black will reformat the file so that flake8 will complain with E203.
-                # However, according to
-                # https://black.readthedocs.io/en/stable/faq.html#why-are-flake8-s-e203-and-w503-violated,
-                # this is against PEP8
-                line[estimated_column_end - delta : min(estimated_column_end + delta, len(line))],  # noqa: E203
+                line[estimated_column_end - delta : min(estimated_column_end + delta, len(line))],
             )[0]
         except IndexError:
             return None
@@ -524,11 +517,7 @@ class FMIBistroMenuParser(MenuParser):
         try:
             labels_str = re.findall(
                 r"[A-Za-z](?:,[A-Za-z]+)*",
-                # pre-commit tool black will reformat the file so that flake8 will complain with E203.
-                # However, according to
-                # https://black.readthedocs.io/en/stable/faq.html#why-are-flake8-s-e203-and-w503-violated,
-                # this is against PEP8
-                line[max(estimated_column_begin - delta, 0) : estimated_column_begin + delta],  # noqa: E203
+                line[max(estimated_column_begin - delta, 0) : estimated_column_begin + delta],
             )[0]
         except IndexError:
             labels_str = ""

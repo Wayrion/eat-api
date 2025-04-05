@@ -7,7 +7,7 @@ from entities import Canteen
 
 def parse_cli_args():
     parser: argparse.ArgumentParser = argparse.ArgumentParser()
-    group: argparse._MutuallyExclusiveGroup = parser.add_mutually_exclusive_group(  # pylint: disable=protected-access
+    group: argparse._MutuallyExclusiveGroup = parser.add_mutually_exclusive_group(
         required=True,
     )
     group.add_argument(
@@ -15,14 +15,12 @@ def parse_cli_args():
         "--parse",
         metavar="CANTEEN",
         dest="canteen",
-        # pylint:disable=protected-access
         choices=(Canteen._member_names_ + [key.canteen_id for key in Canteen]),
-        # pylint:enable=protected-access
         help="the canteen you want to eat at",
     )
     parseGroup: argparse._MutuallyExclusiveGroup = group.add_argument_group(
         "parse",
-    )  # type: ignore # pylint: disable=protected-access
+    )  # type: ignore
     parseGroup.add_argument("-d", "--date", help="date (DD.MM.YYYY) of the day of which you want to get the menu")
     parseGroup.add_argument(
         "-j",

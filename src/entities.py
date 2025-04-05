@@ -564,7 +564,7 @@ class Dish:
         return {
             "name": self.name,
             "prices": self.prices.to_json_obj(),
-            "labels": sorted(map(lambda label: label.name, self.labels)),  # type: ignore
+            "labels": sorted(label.name for label in self.labels),
             "dish_type": self.dish_type,
         }
 

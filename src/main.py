@@ -41,7 +41,7 @@ def jsonify(weeks: Dict[int, Week], directory: str, canteen: Canteen, combine_di
         year = week.year
 
         # create dir: <year>/
-        json_dir = f"{str(directory)}/{str(year)}"
+        json_dir = f"{directory}/{year}"
         if not os.path.exists(json_dir):
             os.makedirs(json_dir)
 
@@ -50,7 +50,7 @@ def jsonify(weeks: Dict[int, Week], directory: str, canteen: Canteen, combine_di
         if week_json is not None:
             week_json["version"] = JSON_VERSION
         # write JSON to file: <year>/<calendar_week>.json
-        with open(f"{str(json_dir)}/{str(calendar_week).zfill(2)}.json", "w", encoding="utf-8") as outfile:
+        with open(f"{json_dir}/{calendar_week:02}.json", "w", encoding="utf-8") as outfile:  # noqa: E231
             json.dump(week_json, outfile, separators=(",", ":"), ensure_ascii=False)
 
     # check if combine parameter got set
@@ -60,9 +60,9 @@ def jsonify(weeks: Dict[int, Week], directory: str, canteen: Canteen, combine_di
     combined_df_name = "combined"
 
     # create directory for combined output
-    json_dir = f"{str(directory)}/{combined_df_name}"
+    json_dir = f"{directory}/{combined_df_name}"
     if not os.path.exists(json_dir):
-        os.makedirs(f"{str(directory)}/{combined_df_name}")
+        os.makedirs(json_dir)
 
     # convert all weeks to one JSON object
     weeks_json_all = json.dumps(
@@ -76,7 +76,7 @@ def jsonify(weeks: Dict[int, Week], directory: str, canteen: Canteen, combine_di
     )
 
     # write JSON object to file
-    with open(f"{str(json_dir)}/{combined_df_name}.json", "w", encoding="utf-8") as outfile:
+    with open(f"{json_dir}/{combined_df_name}.json", "w", encoding="utf-8") as outfile:
         json.dump(json.loads(weeks_json_all), outfile, separators=(",", ":"), ensure_ascii=False)
 
 
@@ -84,8 +84,7 @@ def main():
     # get command line args
     args = cli.parse_cli_args()
 
-    # print canteens
-    if args.canteens:
+    if args.print_canteens:
         sys.exit(enum_json_creator.enum_to_api_representation_dict(list(Canteen)))
     if args.canteen_ids:
         for c in list(Canteen):
@@ -101,10 +100,6 @@ def main():
     menus = parser.parse(canteen)
     if menus is None:
         sys.exit("Error. Could not retrieve menu(s)")
-
-    # sort dishes before translating to keep the order
-    for menu in menus.values():
-        menu.dishes.sort(key=lambda dish: dish.name)
 
     # optionally translate the dish titles
     if args.language is not None and args.language.upper() != "DE":

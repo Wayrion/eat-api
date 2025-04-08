@@ -61,24 +61,25 @@ The JSON files are produced by the tool shown in this repository. Hence, it is e
 
 ```bash
 $ python3 src/main.py --help
-usage: main.py [-h] [-p CANTEEN] [-d DATE] [-j PATH] [-c] [--openmensa PATH]
-               [--canteens] [--language LANGUAGE]
+usage: main.py [-h] (-p CANTEEN | --canteen-ids | --print-canteens)
+               [--language LANGUAGE] [-j PATH | --openmensa PATH | -d DATE]
+               [-c]
 
 options:
-  -h, --help            show this help message and exit
-  -p CANTEEN, --parse CANTEEN
-                        the canteen you want to eat at
-  -d DATE, --date DATE  date (DD.MM.YYYY) of the day of which you want to get
-                        the menu
-  -c, --combine         creates a "combined.json" file containing all dishes
-                        for the canteen specified
-  --openmensa PATH      directory for OpenMensa XML output (date parameter
-                        will be ignored if this argument is used)
-  --canteens            prints all available canteens formated as JSON
-  --language LANGUAGE   The language to translate the dish titles to, needs an
-                        DeepL API-Key in the environment variable
-                        DEEPL_API_KEY_EAT_API
-
+  -h, --help           show this help message and exit
+  -p, --parse CANTEEN  the canteen you want to eat at
+  --canteen-ids        prints all available canteen IDs to stdout with a new
+                       line after each canteen
+  --print-canteens     prints all available canteens formated as JSON
+  --language LANGUAGE  The language to translate the dish titles to, needs an
+                       DeepL API-Key in the environment variable
+                       DEEPL_API_KEY_EAT_API
+  -j, --jsonify PATH   directory for JSON output
+  --openmensa PATH     directory for OpenMensa XML output
+  -d, --date DATE      date (DD.MM.YYYY) of the day of which you want to get
+                       the menu
+  -c, --combine        only for jsonify: creates a "combined.json" file
+                       containing all dishes for the canteen specified
 ```
 
 It is mandatory to specify the canteen (e.g. mensa-garching). Furthermore, you can specify a date, for which you would like to get the menu. If no date is provided, all the dishes for the current week will be printed to the command line. the `--jsonify` option is used for the API and produces some JSON files containing the menu data.

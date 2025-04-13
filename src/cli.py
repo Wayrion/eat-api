@@ -37,7 +37,7 @@ def parse_cli_args():
 
     output_group: argparse._MutuallyExclusiveGroup = (
         parser.add_mutually_exclusive_group()
-    )
+                                )
     output_group.add_argument(
         "-j",
         "--jsonify",

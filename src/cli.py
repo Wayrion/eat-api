@@ -35,9 +35,7 @@ def parse_cli_args():
         "needs an DeepL API-Key in the environment variable DEEPL_API_KEY_EAT_API",
     )
 
-    output_group: argparse._MutuallyExclusiveGroup = (
-        parser.add_mutually_exclusive_group()
-                                )
+    output_group: argparse._MutuallyExclusiveGroup = parser.add_mutually_exclusive_group()
     output_group.add_argument(
         "-j",
         "--jsonify",

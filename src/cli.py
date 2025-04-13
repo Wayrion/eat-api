@@ -8,7 +8,6 @@ from entities import Canteen
 def parse_cli_args():
     parser: argparse.ArgumentParser = argparse.ArgumentParser()
     action_group: argparse._MutuallyExclusiveGroup = parser.add_mutually_exclusive_group(
-        # pylint: disable=protected-access
         required=True,
     )
     action_group.add_argument(
@@ -16,9 +15,7 @@ def parse_cli_args():
         "--parse",
         metavar="CANTEEN",
         dest="canteen",
-        # pylint:disable=protected-access
         choices=(Canteen._member_names_ + [key.canteen_id for key in Canteen]),
-        # pylint:enable=protected-access
         help="the canteen you want to eat at",
     )
     action_group.add_argument(
@@ -38,9 +35,7 @@ def parse_cli_args():
         "needs an DeepL API-Key in the environment variable DEEPL_API_KEY_EAT_API",
     )
 
-    output_group: argparse._MutuallyExclusiveGroup = (
-        parser.add_mutually_exclusive_group()
-    )  # pylint: disable=protected-access
+    output_group: argparse._MutuallyExclusiveGroup = parser.add_mutually_exclusive_group()
     output_group.add_argument(
         "-j",
         "--jsonify",

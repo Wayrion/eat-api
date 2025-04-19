@@ -119,7 +119,7 @@ The `canteens.json` and `label.json` are generated from the `Canteen` and `Label
 
 ## Contributing
 
-### Getting started 
+### Getting started
 
 1. Fork and clone this repository
 2. Install [uv](https://docs.astral.sh/uv/)

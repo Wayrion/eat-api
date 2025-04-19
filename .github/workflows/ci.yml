@@ -12,7 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
       with: 
-        fetch-depth: 0 # Shalow clone, no history is needed
+        fetch-depth: 0 # Shallow clone, no history is needed
     - uses: actions/setup-python@v5
     - uses: pre-commit/action@v3.0.1
 

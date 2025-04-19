@@ -12,7 +12,7 @@ jobs:
         steps:
             - uses: actions/checkout@v4
               with: 
-                fetch-depth: 0 # Shalow clone, no history is needed
+                fetch-depth: 0 # Shallow clone, no history is needed
 
             - name: Setup uv
               uses: astral-sh/setup-uv@v4

@@ -89,10 +89,10 @@ It is mandatory to specify the canteen (e.g. mensa-garching). Furthermore, you c
 Here are some sample calls:
 
 ```
-# Get the menus for the whole current week at mensa-garching
+# Get the menus for the whole current week at Mensa Garching 
 $ uv run src/main.py -p mensa-garching
 
-# Get the menu for April 2 at mensa-arcisstr
+# Get the menu for April 2 at Mensa Arcisstrasse
 $ uv run src/main.py -p mensa-arcisstr -d 02.04.2025
 ```
 

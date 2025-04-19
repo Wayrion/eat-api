@@ -123,7 +123,7 @@ The `canteens.json` and `label.json` are generated from the `Canteen` and `Label
 
 1. Fork and clone this repository
 2. Install [uv](https://docs.astral.sh/uv/)
-2. Install the python dependencies (Python 3.9+ required):
+3. Install the python dependencies (Python 3.9+ required):
 
 -   `sudo apt install libxml2 libxml2-dev libxslt1-dev`
 -   `uv sync --all-extras --dev`

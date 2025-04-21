@@ -61,8 +61,7 @@ The JSON files are produced by the tool shown in this repository. Hence, it is e
 ```bash
 $ python3 src/main.py --help
 usage: main.py [-h] (-p CANTEEN | --canteen-ids | --print-canteens)
-               [--language LANGUAGE] [-j PATH | --openmensa PATH | -d DATE]
-               [-c]
+               [-j PATH | --openmensa PATH | -d DATE] [-c]
 
 options:
   -h, --help           show this help message and exit
@@ -70,9 +69,6 @@ options:
   --canteen-ids        prints all available canteen IDs to stdout with a new
                        line after each canteen
   --print-canteens     prints all available canteens formated as JSON
-  --language LANGUAGE  The language to translate the dish titles to, needs an
-                       DeepL API-Key in the environment variable
-                       DEEPL_API_KEY_EAT_API
   -j, --jsonify PATH   directory for JSON output
   --openmensa PATH     directory for OpenMensa XML output
   -d, --date DATE      date (DD.MM.YYYY) of the day of which you want to get

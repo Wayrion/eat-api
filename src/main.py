@@ -100,10 +100,6 @@ def main():
     if menus is None:
         sys.exit("Error. Could not retrieve menu(s)")
 
-    # optionally translate the dish titles
-    if args.language is not None and args.language.upper() != "DE":
-        util.translate_dishes(menus, args.language)
-
     # if date has been explicitly specified, try to parse it
     menu_date = None
     if args.date is not None:

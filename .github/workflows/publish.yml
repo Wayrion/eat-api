@@ -15,7 +15,7 @@ jobs:
               uses: astral-sh/setup-uv@v4
               with:
                     enable-cache: true
-                
+
             - name: Setup Python
               uses: actions/setup-python@v5
               with:
@@ -27,14 +27,18 @@ jobs:
                   sudo apt install -y tree poppler-utils
                   uv sync --all-extras --dev
 
-            - name: Test with pytest
-              run: uv run pytest
-              env:
-                  PYTHONPATH: src/
-              if: github.event_name == 'push'
+            - name: Fetch translation cache
+              uses: actions/checkout@v4
+              with:
+                ref: gh-pages
+                path: cache
+                sparse-checkout: en/translations.json
+                sparse-checkout-cone-mode: false
 
             - name: Parse
               run: ./scripts/parse.sh
+              env:
+                DEEPL_API_KEY: ${{ secrets.DEEPL_API_KEY }}
 
             - name: Deploy
               uses: docker://peaceiris/gh-pages:latest

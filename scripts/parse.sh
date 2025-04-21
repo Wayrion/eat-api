@@ -11,6 +11,8 @@ if [ -d $OUT_DIR ]; then
 fi
 # Create empty output directory:
 mkdir -p $OUT_DIR
+# keep translations cache
+mv cache/en "$OUT_DIR/en"
 
 parse(){
     echo "Parsing menus for $1..."

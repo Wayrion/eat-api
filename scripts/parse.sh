@@ -18,12 +18,15 @@ parse(){
     echo "Parsing menus for $1 done."
 }
 
+# single failing canteen should not impact others
+set +e
 # Parse all canteens:
 for canteen in ${CANTEEN_LIST};
 do
  ( parse $canteen $LANGUAGE ) &
 done
 wait # Wait for all processes to finish
+set -e
 
 # Combine all combined.json files to one all.json file:
 uv run scripts/combine.py
@@ -33,10 +36,13 @@ uv run scripts/reformat.py
 
 openmensa_list=("fmi-bistro" )
 
+# single failing canteen should not impact others
+set +e
 for CANTEEN in "${openmensa_list[@]}"; do
     echo "Parsing openmensa menus for: " "$CANTEEN"
     uv run src/main.py -p "$CANTEEN" --openmensa "$OUT_DIR/$CANTEEN"
 done
+set -e
 
 ENUM_JSON_PATH="$OUT_DIR/enums"
 mkdir -p "$ENUM_JSON_PATH"

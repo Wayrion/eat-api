@@ -693,39 +693,6 @@
         }
     },
     {
-        "enum_name": "IPP_BISTRO",
-        "name": "IPP Bistro Garching",
-        "location": {
-            "address": "Boltzmannstra\u00dfe 2, 85748 Garching",
-            "latitude": 48.262371,
-            "longitude": 11.672702
-        },
-        "canteen_id": "ipp-bistro",
-        "queue_status": null,
-        "open_hours": {
-            "mon": {
-                "start": "09:00",
-                "end": "17:00"
-            },
-            "tue": {
-                "start": "09:00",
-                "end": "17:00"
-            },
-            "wed": {
-                "start": "09:00",
-                "end": "17:00"
-            },
-            "thu": {
-                "start": "09:00",
-                "end": "17:00"
-            },
-            "fri": {
-                "start": "09:00",
-                "end": "15:00"
-            }
-        }
-    },
-    {
         "enum_name": "FMI_BISTRO",
         "name": "FMI Bistro Garching",
         "location": {

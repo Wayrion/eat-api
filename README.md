@@ -28,7 +28,6 @@ Simple static API for the canteens of the [Studierendenwerk München Oberbayern]
 | StuCafé Karlstraße             | stucafe-karlstr                | [Karlstraße 6, München](https://www.google.com/maps?q=Karlstraße+6,+München)                                                |
 | StuCafé Pasing                 | stucafe-pasing                 | [Am Stadtpark 20, München](https://www.google.com/maps?q=Am%20Stadtpark+20,+München)                                        |
 | FMI Bistro Garching            | fmi-bistro                     | [Boltzmannstraße 3, Garching](https://www.google.com/maps?q=Boltzmannstraße+3,+Garching)                                    |
-| IPP Bistro Garching            | ipp-bistro                     | [Boltzmannstraße 2, Garching](https://goo.gl/maps/vYdsQhgxFvH2)                                                             |
 | Mensa Bildungscampus Heilbronn | mensa-bildungscampus-heilbronn | [Bildungscampus 8, Heilbronn](https://maps.app.goo.gl/Jq2p9fKkjTMPrvd39)                                                    |
 
 ## Label list - previously _ingredients_:
@@ -111,7 +110,6 @@ The `canteens.json` and `label.json` are generated from the `Canteen` and `Label
 
 -   Parser for [OpenMensa](https://openmensa.org) ([GitHub](https://github.com/openmensa/openmensa))
     -   [Wilhelm Gastronomie im FMI Gebäude der TUM Garching](https://openmensa.org/c/773)
-    -   [Konradhofer Catering - Betriebskantine IPP](https://openmensa.org/c/774)
 -   `FMeat.php` SDK ([GitHub](https://github.com/jpbernius/fmeat.php))
 -   [Telegram](https://telegram.org/) bot for [Channel t.me/lunchgfz](https://t.me/lunchgfz) ([GitLab](https://gitlab.com/raabf/lunchgfz-telegram))
 -   TUM-Campus-App ([GitHub](https://github.com/TUM-Dev/campus_flutter))

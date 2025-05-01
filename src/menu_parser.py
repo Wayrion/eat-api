@@ -8,7 +8,7 @@ import unicodedata
 from abc import ABC, abstractmethod
 from enum import Enum, auto
 from subprocess import call  # noqa: S404 all the inputs is fully defined
-from typing import Dict, List, Optional, Pattern, Set, Tuple
+from typing import Dict, List, Optional, Set, Tuple
 from warnings import warn
 
 import requests  # type: ignore

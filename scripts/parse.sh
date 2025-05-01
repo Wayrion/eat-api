@@ -32,7 +32,7 @@ python3 scripts/combine.py
 # and reorganize them in a more efficient format:
 python3 scripts/reformat.py
 
-openmensa_list=( "ipp-bistro" "fmi-bistro" )
+openmensa_list=("fmi-bistro" )
 
 for CANTEEN in "${openmensa_list[@]}"; do
     echo "Parsing openmensa menus for: " "$CANTEEN"

@@ -338,13 +338,6 @@ class Canteen(ApiRepresentable, Enum):
         "https://api.betterhm.app/v1/capacity/STUCAFE_PASING",
         OpenHours(("07:45", "16:15"), ("07:45", "16:15"), ("07:45", "16:00"), ("07:45", "16:00"), ("07:45", "14:30")),
     )
-    IPP_BISTRO = (
-        "IPP Bistro Garching",
-        Location("Boltzmannstraße 2, 85748 Garching", 48.262371, 11.672702),
-        None,
-        None,
-        OpenHours(("09:00", "17:00"), ("09:00", "17:00"), ("09:00", "17:00"), ("09:00", "17:00"), ("09:00", "15:00")),
-    )
     FMI_BISTRO = (
         "FMI Bistro Garching",
         Location("Boltzmannstraße 3, 85748 Garching", 48.262408, 11.668028),

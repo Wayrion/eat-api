@@ -61,8 +61,7 @@ The JSON files are produced by the tool shown in this repository. Hence, it is e
 ```bash
 $ python3 src/main.py --help
 usage: main.py [-h] (-p CANTEEN | --canteen-ids | --print-canteens)
-               [--language LANGUAGE] [-j PATH | --openmensa PATH | -d DATE]
-               [-c]
+               [-j PATH | --openmensa PATH | -d DATE] [-c]
 
 options:
   -h, --help           show this help message and exit
@@ -70,9 +69,6 @@ options:
   --canteen-ids        prints all available canteen IDs to stdout with a new
                        line after each canteen
   --print-canteens     prints all available canteens formated as JSON
-  --language LANGUAGE  The language to translate the dish titles to, needs an
-                       DeepL API-Key in the environment variable
-                       DEEPL_API_KEY_EAT_API
   -j, --jsonify PATH   directory for JSON output
   --openmensa PATH     directory for OpenMensa XML output
   -d, --date DATE      date (DD.MM.YYYY) of the day of which you want to get
@@ -99,8 +95,14 @@ $ uv run src/main.py -p mensa-arcisstr -d 02.04.2025
 
 Dish titles are provided only in german by the Studentenwerk. 
 We offer the possibility to translate them using the DeepL API.
-In order to use the API, there needs to be an API key provided in the environment variable `DEEPL_API_KEY_EAT_API`.
-The target language can be specified using the `--language` option using one of the languages supported by DeepL e.g. `EN-US`.
+In order to use the API, there needs to be an API key provided in the environment variable `DEEPL_API_KEY`.
+First run the CLI to generate any JSON files you want, then run the translation script:
+```bash
+$ DEEPL_API_KEY="your_key" python3 src/translate.py path/to/json/files output EN-US
+```
+The target language can be specified with the third option using one of the languages supported by DeepL e.g. `EN-US`.
+
+The translation script also caches translations in `translations.json`, this can be disabled with `--no-cache`.
 
 ### Generating `canteens.json` and `label.json`
 

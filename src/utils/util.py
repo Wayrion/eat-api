@@ -1,14 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import annotations
 
-import os
-from datetime import date, datetime
-from typing import TYPE_CHECKING, Dict
-
-import deepl
-
-if TYPE_CHECKING:
-    from src.entities import Menu
+from datetime import datetime
 
 date_pattern = "%d.%m.%Y"
 cli_date_format = "dd.mm.yyyy"
@@ -32,26 +25,3 @@ def make_duplicates_unique(names_with_duplicates):
             names_without_duplicates[i] += f" ({count})"
 
     return names_without_duplicates
-
-
-def translate_dishes(menus: Dict[date, Menu], language: str) -> None:
-    """
-    Translate the dish titles of a menu
-
-    :param menus: Menus dictionary as given by the menu parser, will be modified
-    :param language: Identifier for a language
-    :return: Whether translation was successful
-    """
-    # get api key from environment, abort if not given
-    deepl_api_key = os.environ.get("DEEPL_API_KEY_EAT_API")
-    if deepl_api_key is None:
-        raise ValueError("For translation please provide a DeepL api key via DEEPL_API_KEY_EAT_API")
-
-    translator = deepl.Translator(deepl_api_key)
-
-    # traverse through all dish titles
-    for menu in menus.values():
-        for dish in menu.dishes:
-            # source language is always german
-            result = translator.translate_text(dish.name, source_lang="DE", target_lang=language)
-            dish.name = result.text

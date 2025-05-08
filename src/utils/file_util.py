@@ -1,4 +1,6 @@
 import json
+import typing
+from os import PathLike
 
 from lxml import html  # nosec: https://github.com/TUM-Dev/eat-api/issues/19
 
@@ -13,7 +15,7 @@ def load_html(path: str) -> html.Element:
     return html_element  # noqa: R504
 
 
-def load_json(path: str) -> object:  # type: ignore
+def load_json(path: str | PathLike[str]) -> typing.Any:
     with open(path, encoding="utf-8") as f:
         json_obj = json.load(f)
     # suppress warning about "unnecessary variable assignment before return statement".
@@ -21,7 +23,7 @@ def load_json(path: str) -> object:  # type: ignore
     return json_obj  # noqa: R504
 
 
-def load_ordered_json(path: str) -> object:
+def load_ordered_json(path: str | PathLike[str]) -> typing.Any:
     return json_util.order_json_objects(load_json(path))
 
 

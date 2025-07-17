@@ -292,13 +292,13 @@ class Canteen(ApiRepresentable, Enum):
         OpenHours(("08:30", "15:00"), ("08:30", "15:00"), ("08:30", "15:00"), ("08:30", "15:00"), ("08:30", "14:00")),
     )
     STUCAFE_BOLTZMANNSTR = (
-        "StuCafé Boltzmannstraße",
+        "StuBistro Boltzmannstraße",
         Location(
             "Boltzmannstraße 15, Garching",
             48.265768,
             11.667593,
         ),
-        527,
+        457,
         None,
         OpenHours(("08:00", "16:00"), ("08:00", "16:00"), ("08:00", "16:00"), ("08:00", "16:00"), ("08:00", "15:00")),
     )

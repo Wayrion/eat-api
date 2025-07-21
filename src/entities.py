@@ -171,7 +171,7 @@ class Canteen(ApiRepresentable, Enum):
         Location("Boltzmannstraße 19, Garching", 48.268132, 11.672263),
         422,
         "https://mensa.liste.party/api/",
-        OpenHours(("11:00", "14:30"), ("11:00", "14:30"), ("11:00", "14:30"), ("11:00", "14:30"), ("11:00", "14:00")),
+        OpenHours(("10:45", "14:15"), ("10:45", "14:15"), ("10:45", "14:15"), ("10:45", "14:15"), ("10:45", "14:15")),
     )
     MENSA_LEOPOLDSTR = (
         "Mensa Leopoldstraße",
@@ -292,15 +292,15 @@ class Canteen(ApiRepresentable, Enum):
         OpenHours(("08:30", "15:00"), ("08:30", "15:00"), ("08:30", "15:00"), ("08:30", "15:00"), ("08:30", "14:00")),
     )
     STUCAFE_BOLTZMANNSTR = (
-        "StuCafé Boltzmannstraße",
+        "StuBistro Boltzmannstraße",
         Location(
             "Boltzmannstraße 15, Garching",
             48.265768,
             11.667593,
         ),
-        527,
+        457,
         None,
-        OpenHours(("08:00", "16:00"), ("08:00", "16:00"), ("08:00", "16:00"), ("08:00", "16:00"), ("08:00", "15:00")),
+        OpenHours(("08:30", "16:30"), ("08:30", "16:30"), ("08:30", "16:30"), ("08:30", "16:30"), ("08:30", "15:00")),
     )
     STUCAFE_CONNOLLYSTR = (
         "StuCafé Connollystraße",

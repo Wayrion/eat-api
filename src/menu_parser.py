@@ -92,16 +92,16 @@ class StudentenwerkMenuParser(MenuParser):
         SAUSAGE = (0.5, 0.5, 0.5)
         MEAT = (1.0, 1.0, 1.0)
         FISH = (1.5, 1.5, 1.5)
-        PIZZA_VEGGIE = (4.0, 4.5, 5.0)
-        PIZZA_MEAT = (4.5, 5.0, 5.5)
+        PIZZA_VEGGIE = (4.0, 5.0, 6.0)
+        PIZZA_MEAT = (5.0, 5.5, 6.5)
 
         def __init__(self, p1, p2, p3):
             self.price = (p1, p2, p3)
 
     # meat and vegetarian base prices for Students, Staff, Guests
     class SelfServicePricePerUnitType(Enum):
-        CLASSIC = 0.80, 1.00, 1.35
-        SOUP_STEW = 0.33, 0.65, 1.35
+        CLASSIC = 0.90, 1.15, 1.60
+        SOUP_STEW = 0.33, 1.15, 1.60
         PIZZA = 0.0, 0.0, 0.0
 
         def __init__(self, students: float, staff: float, guests: float):
@@ -162,30 +162,21 @@ class StudentenwerkMenuParser(MenuParser):
     # Students, Staff, Guests
     # Looks like those are the fallback prices
     prices_mensa_weihenstephan_mensa_lothstrasse: Dict[str, Tuple[Price, Price, Price]] = {
-        "Tagesgericht 1": Prices(Price(1.00), Price(2.25), Price(3.10)),
-        "Tagesgericht 2": Prices(Price(1.70), Price(2.50), Price(3.50)),
-        "Tagesgericht 3": Prices(Price(2.05), Price(2.85), Price(3.90)),
-        "Tagesgericht 4": Prices(Price(2.55), Price(3.20), Price(4.30)),
-        "Suppe": Prices(Price(0.60), Price(0.70), Price(1.10)),
-        "Stärkebeilagen": Prices(Price(0.65), Price(0.90), Price(1.25)),
-        "Beilage": Prices(Price(0.65), Price(0.90), Price(1.25)),
-        "Salatbuffet": Prices(Price(0, 0.80, "100g"), Price(0, 1.00, "100g"), Price(0, 1.35, "100g")),
-        "Obst": Prices(Price(0.85), Price(0.85), Price(0.85)),
-        "Bio-/Aktionsgericht 1": Prices(Price(1.70), Price(2.50), Price(3.50)),
-        "Bio-/Aktionsgericht 2": Prices(Price(2.05), Price(2.85), Price(3.90)),
-        "Bio-/Aktionsgericht 3": Prices(Price(2.55), Price(3.20), Price(4.30)),
-        "Bio-/Aktionsgericht 4": Prices(Price(2.75), Price(3.55), Price(4.70)),
-        "Bio-/Aktionsgericht 5": Prices(Price(2.95), Price(3.90), Price(5.10)),
-        "Bio-/Aktionsgericht 6": Prices(Price(3.15), Price(4.25), Price(5.50)),
-        "Bio-/Aktionsgericht 7": Prices(Price(3.35), Price(4.60), Price(5.90)),
-        "Bio-/Aktionsgericht 8": Prices(Price(3.65), Price(4.95), Price(6.30)),
-        "Bio-/Aktionsgericht 9": Prices(Price(4.15), Price(5.30), Price(6.70)),
-        "Bio-/Aktionsgericht 10": Prices(Price(4.65), Price(5.65), Price(7.10)),
-        "Bio-/Aktionsbeilage 1": Prices(Price(0.65), Price(0.90), Price(1.30)),
-        "Bio-/Aktionsbeilage 2": Prices(Price(0.80), Price(1.05), Price(1.50)),
-        "Bio-/Aktionsbeilage 3": Prices(Price(0.90), Price(1.25), Price(1.70)),
-        "Bio-/Aktionsbeilage 4": Prices(Price(1.10), Price(1.45), Price(2.00)),
-        "Aktionsbeilage 6": Prices(Price(1.50), Price(1.70), Price(2.30)),
+        "Gericht 1": Prices(Price(2.95), Price(3.90), Price(5.10)),
+        "Gericht 2": Prices(Price(3.35), Price(4.60), Price(5.90)),
+        "Gericht 3": Prices(Price(3.65), Price(4.95), Price(6.30)),
+        "Gericht 4": Prices(Price(4.15), Price(5.30), Price(6.70)),
+        "Gericht 5": Prices(Price(4.65), Price(5.65), Price(7.10)),
+        "Gericht 6": Prices(Price(5.25), Price(6.25), Price(7.80)),
+        "Beilage 1": Prices(Price(0.80), Price(1.05), Price(1.50)),
+        "Brot": Prices(Price(0.80), Price(1.05), Price(1.50)),
+        "Obst": Prices(Price(0.80), Price(1.05), Price(1.50)),
+        "Beilage 2": Prices(Price(0.90), Price(1.25), Price(1.70)),
+        "Beilage 3": Prices(Price(1.10), Price(1.45), Price(2.00)),
+        "Beilage 4": Prices(Price(1.60), Price(1.80), Price(2.60)),
+        "Pizza - Veggie 4.50": Prices(Price(5.00), Price(6.00)),
+        "Pizza - Wurst. Schinken. Fisch. Meeresfrüchte": Prices(Price(5.00), Price(5.50), Price(6.50)),
+        "Salatbuffet": Prices(Price(0, 0.90, "100g"), Price(0, 1.15, "100g"), Price(0, 1.60, "100g")),
     }
 
     @staticmethod

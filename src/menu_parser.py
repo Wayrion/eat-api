@@ -162,7 +162,7 @@ class StudentenwerkMenuParser(MenuParser):
     # Students, Staff, Guests
     # Looks like those are the fallback prices
     prices_mensa_weihenstephan_mensa_lothstrasse: Dict[str, Tuple[Price, Price, Price]] = {
-            "StudiTopf": Prices(Price(1.00), Price(2.90), Price(3.90)),
+        "StudiTopf": Prices(Price(1.00), Price(2.90), Price(3.90)),
         "Gericht 1": Prices(Price(2.95), Price(3.90), Price(5.10)),
         "Gericht 2": Prices(Price(3.35), Price(4.60), Price(5.90)),
         "Gericht 3": Prices(Price(3.65), Price(4.95), Price(6.30)),

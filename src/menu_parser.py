@@ -174,7 +174,7 @@ class StudentenwerkMenuParser(MenuParser):
         "Beilage 2": Prices(Price(0.90), Price(1.25), Price(1.70)),
         "Beilage 3": Prices(Price(1.10), Price(1.45), Price(2.00)),
         "Beilage 4": Prices(Price(1.60), Price(1.80), Price(2.60)),
-        "Pizza - Veggie 4.50": Prices(Price(5.00), Price(6.00)),
+        "Pizza - Veggie": Prices(Price(4.50), Price(5.00), Price(6.00)),
         "Pizza - Wurst. Schinken. Fisch. Meeresfrüchte": Prices(Price(5.00), Price(5.50), Price(6.50)),
         "Salatbuffet": Prices(Price(0, 0.90, "100g"), Price(0, 1.15, "100g"), Price(0, 1.60, "100g")),
     }

@@ -92,7 +92,7 @@ class StudentenwerkMenuParser(MenuParser):
         SAUSAGE = (0.5, 0.5, 0.5)
         MEAT = (1.0, 1.0, 1.0)
         FISH = (1.5, 1.5, 1.5)
-        PIZZA_VEGGIE = (4.0, 5.0, 6.0)
+        PIZZA_VEGGIE = (4.5, 5.0, 6.0)
         PIZZA_MEAT = (5.0, 5.5, 6.5)
 
         def __init__(self, p1, p2, p3):
